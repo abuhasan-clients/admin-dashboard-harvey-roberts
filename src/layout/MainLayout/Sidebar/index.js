@@ -13,13 +13,13 @@ import MenuList from './MenuList';
 import LogoSection from '../LogoSection';
 import MenuCard from './MenuCard';
 import { drawerWidth } from 'store/constant';
+import { useSelector } from 'react-redux';
 
 // ==============================|| SIDEBAR DRAWER ||============================== //
 
 const Sidebar = ({ drawerOpen, drawerToggle, window }) => {
     const theme = useTheme();
     const matchUpMd = useMediaQuery(theme.breakpoints.up('md'));
-
     const drawer = (
         <>
             <Box sx={{ display: { xs: 'block', md: 'none' } }}>
@@ -50,13 +50,14 @@ const Sidebar = ({ drawerOpen, drawerToggle, window }) => {
     );
 
     const container = window !== undefined ? () => window.document.body : undefined;
-
+    const customization = useSelector((state) => state.customization);
+    // dir = { customization?.dirChange? 'rtl': 'ltr' }
     return (
         <Box component="nav" sx={{ flexShrink: { md: 0 }, width: matchUpMd ? drawerWidth : 'auto' }} aria-label="mailbox folders">
             <Drawer
                 container={container}
                 variant={matchUpMd ? 'persistent' : 'temporary'}
-                anchor="left"
+                anchor={customization?.dirChange ? 'right' : 'left'}
                 open={drawerOpen}
                 onClose={drawerToggle}
                 sx={{

@@ -5,12 +5,13 @@ import config from 'config';
 import * as actionTypes from './actions';
 
 const initialTheme = localStorage.getItem('themeChange');
-
+const initialDir = localStorage.getItem('dirChange');
 export const initialState = {
     isOpen: [], // for active default menu
     fontFamily: config.fontFamily,
     borderRadius: config.borderRadius,
     themeChange: initialTheme === null ? 'light' : initialTheme,
+    dirChange: initialDir === null ? false : initialDir,
     opened: true
 };
 
@@ -44,6 +45,11 @@ const customizationReducer = (state = initialState, action) => {
             return {
                 ...state,
                 themeChange: action.themeChange
+            };
+        case actionTypes.DIR_CHANGE:
+            return {
+                ...state,
+                dirChange: action.dirChange
             };
         default:
             return state;

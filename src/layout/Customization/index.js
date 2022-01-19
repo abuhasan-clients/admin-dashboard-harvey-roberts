@@ -1,10 +1,13 @@
+/* eslint-disable jsx-a11y/label-has-associated-control */
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 // material-ui
 import { useTheme } from '@mui/material/styles';
 import {
+    Switch,
     Drawer,
+    Box,
     Fab,
     FormControl,
     FormControlLabel,
@@ -24,7 +27,7 @@ import PerfectScrollbar from 'react-perfect-scrollbar';
 // project imports
 import SubCard from 'ui-component/cards/SubCard';
 import AnimateButton from 'ui-component/extended/AnimateButton';
-import { SET_BORDER_RADIUS, SET_FONT_FAMILY, SET_THEMING } from 'store/actions';
+import { SET_BORDER_RADIUS, SET_FONT_FAMILY, SET_THEMING, DIR_CHANGE } from 'store/actions';
 import { gridSpacing } from 'store/constant';
 
 // concat 'px'
@@ -38,7 +41,6 @@ const Customization = () => {
     const theme = useTheme();
     const dispatch = useDispatch();
     const customization = useSelector((state) => state.customization);
-
     // drawer on/off
     const [open, setOpen] = useState(false);
     const handleToggle = () => {
@@ -89,7 +91,6 @@ const Customization = () => {
     }, [dispatch, fontFamily]);
 
     // state - theme switch
-    // const initialTheme = localStorage.getItem('themeChange');
     let initialTheme;
     switch (customization.themeChange) {
         case `light`:
@@ -119,10 +120,20 @@ const Customization = () => {
         dispatch({ type: SET_THEMING, themeChange: newTheme });
     }, [dispatch, darkTheme, customization.themeChange]);
 
+    // change direction
+    const [checked, setChecked] = useState(customization.dirChange);
+    const handleChange = (event) => {
+        setChecked(event.target.checked);
+        localStorage.setItem('dirChange', event.target.checked);
+    };
+    useEffect(() => {
+        dispatch({ type: DIR_CHANGE, dirChange: checked });
+    }, [dispatch, checked, customization.dirChange]);
+
     return (
         <>
             {/* toggle button */}
-            <Tooltip title="Live Customize">
+            <Tooltip title="Live Customize" className="testing">
                 <Fab
                     component="div"
                     onClick={handleToggle}
@@ -137,7 +148,8 @@ const Customization = () => {
                         borderBottomRightRadius: '4px',
                         top: '25%',
                         position: 'fixed',
-                        right: 10,
+                        right: customization?.dirChange ? 'auto' : 10,
+                        left: customization?.dirChange ? 10 : 'auto',
                         zIndex: theme.zIndex.speedDial
                     }}
                 >
@@ -150,7 +162,8 @@ const Customization = () => {
             </Tooltip>
 
             <Drawer
-                anchor="right"
+                dir={customization?.dirChange ? 'rtl' : 'ltr'}
+                anchor={customization?.dirChange ? 'left' : 'right'}
                 onClose={handleToggle}
                 open={open}
                 PaperProps={{
@@ -196,6 +209,12 @@ const Customization = () => {
                                             />
                                         </div>
                                     </RadioGroup>
+                                    <Box sx={{ display: 'flex', flexDirection: 'column', marginTop: '10px' }}>
+                                        <h5 className="text-primary">
+                                            Direction Now <span className="text-warning">{checked ? 'RTL' : 'LTR'}</span>
+                                        </h5>
+                                        <Switch id="dirChange" checked={checked} onChange={handleChange} color="warning" />
+                                    </Box>
                                 </FormControl>
                             </SubCard>
                         </Grid>

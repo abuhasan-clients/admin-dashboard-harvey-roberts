@@ -20,7 +20,8 @@ import { SET_MENU } from 'store/actions';
 import { IconChevronRight } from '@tabler/icons';
 
 // styles
-const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(({ theme, open }) => ({
+
+const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(({ theme, open, marginleft, marginright }) => ({
     ...theme.typography.mainContent,
     ...(!open && {
         borderBottomLeftRadius: 0,
@@ -30,7 +31,9 @@ const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(({
             duration: theme.transitions.duration.leavingScreen
         }),
         [theme.breakpoints.up('md')]: {
-            marginLeft: -(drawerWidth - 20),
+            marginLeft: marginleft === 'true' ? -(drawerWidth - 20) : 0,
+            marginRight: marginright === 'true' ? -(drawerWidth - 20) : 0,
+            // -(drawerWidth - 20)
             width: `calc(100% - ${drawerWidth}px)`
         },
         [theme.breakpoints.down('md')]: {
@@ -67,6 +70,7 @@ const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(({
 
 const MainLayout = () => {
     const theme = useTheme();
+    const customization = useSelector((state) => state.customization);
     const matchDownMd = useMediaQuery(theme.breakpoints.down('lg'));
 
     // Handle left drawer
@@ -80,12 +84,12 @@ const MainLayout = () => {
         dispatch({ type: SET_MENU, opened: !matchDownMd });
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [matchDownMd]);
-
     return (
         <Box sx={{ display: 'flex' }}>
             <CssBaseline />
             {/* header */}
             <AppBar
+                dir={customization?.dirChange ? 'rtl' : 'ltr'}
                 enableColorOnDark
                 position="fixed"
                 color="inherit"
@@ -101,14 +105,21 @@ const MainLayout = () => {
             </AppBar>
 
             {/* drawer */}
-            <Sidebar drawerOpen={leftDrawerOpened} drawerToggle={handleLeftDrawerToggle} />
+            {!customization?.dirChange && <Sidebar drawerOpen={leftDrawerOpened} drawerToggle={handleLeftDrawerToggle} />}
 
             {/* main content */}
-            <Main theme={theme} open={leftDrawerOpened}>
+            <Main
+                theme={theme}
+                marginleft={`${!customization?.dirChange && 'true'}`}
+                marginright={`${customization?.dirChange && 'true'}`}
+                open={leftDrawerOpened}
+                dir={customization?.dirChange ? 'rtl' : 'ltr'}
+            >
                 {/* breadcrumb */}
                 <Breadcrumbs separator={IconChevronRight} navigation={navigation} icon title rightAlign />
                 <Outlet />
             </Main>
+            {customization?.dirChange && <Sidebar drawerOpen={leftDrawerOpened} drawerToggle={handleLeftDrawerToggle} />}
             <Customization />
         </Box>
     );

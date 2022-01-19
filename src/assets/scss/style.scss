@@ -1,14 +1,19 @@
 // color variants
-@import 'themes-vars.module.scss';
+@import "themes-vars.module.scss";
 
 // third-party
-@import '~react-perfect-scrollbar/dist/css/styles.css';
+@import "~react-perfect-scrollbar/dist/css/styles.css";
 
 // ==============================|| LIGHT BOX ||============================== //
 .fullscreen .react-images__blanket {
     z-index: 1200;
 }
-
+// .testing{
+//     // position: fixed;
+//     top: 40vh;
+//     left: 0;
+//     right: auto;
+// }
 // ==============================|| APEXCHART ||============================== //
 
 .apexcharts-legend-series .apexcharts-legend-marker {

@@ -31,6 +31,7 @@ const CardWrapper = styled(MainCard)(({ theme }) => ({
         background: theme.palette.secondary[800],
         borderRadius: '50%',
         top: -85,
+        zIndex: 1,
         right: -95,
         [theme.breakpoints.down('sm')]: {
             top: -105,
@@ -41,6 +42,7 @@ const CardWrapper = styled(MainCard)(({ theme }) => ({
         content: '""',
         position: 'absolute',
         width: 210,
+        zIndex: 1,
         height: 210,
         background: theme.palette.secondary[800],
         borderRadius: '50%',
@@ -58,6 +60,7 @@ const CardWrapper = styled(MainCard)(({ theme }) => ({
 
 const EarningCard = ({ isLoading }) => {
     const theme = useTheme();
+    // console.log(theme.palette);
 
     const [anchorEl, setAnchorEl] = useState(null);
 

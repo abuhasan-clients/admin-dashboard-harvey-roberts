@@ -15,18 +15,22 @@ import themeTypography from './typography';
 
 export const theme = (customization) => {
     const color = colors;
-    // const light = {
-    //     palette: {
-    //         type: 'light'
-    //     }
-    // };
-    // const dark = {
-    //     palette: {
-    //         type: 'dark'
-    //     }
-    // };
+
+    // if you are use bootstrap then you have to override
+    const getBody = document.getElementById('mainBody');
+    if (customization?.themeChange === 'light' && getBody) {
+        getBody.style.backgroundColor = color.paper;
+    } else if (customization?.themeChange === 'dark' && getBody) {
+        getBody.style.backgroundColor = color.darkPaper;
+    }
+    // if (customization?.dirChange && getBody) {
+    //     getBody.style.direction = 'rtl';
+    // } else if (!customization?.dirChange && getBody) {
+    //     getBody.style.direction = 'ltr';
+    // }
 
     const themeOption = {
+        presetColors: 'red',
         colors: color,
         heading: customization?.themeChange === 'light' ? color.grey900 : color.grey300,
         paper: customization?.themeChange === 'light' ? color.paper : color.darkPaper,
@@ -42,7 +46,7 @@ export const theme = (customization) => {
     };
 
     const themeOptions = {
-        direction: 'ltr',
+        direction: customization?.dirChange ? 'ltr' : 'ltr',
         palette: themePalette(themeOption),
         mixins: {
             toolbar: {

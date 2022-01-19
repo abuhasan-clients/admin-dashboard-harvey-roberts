@@ -1,5 +1,4 @@
 import { useSelector } from 'react-redux';
-
 import { ThemeProvider } from '@mui/material/styles';
 import { CssBaseline, StyledEngineProvider } from '@mui/material';
 // routing
@@ -15,17 +14,6 @@ import NavigationScroll from 'layout/NavigationScroll';
 
 const App = () => {
     const customization = useSelector((state) => state.customization);
-    // console.log(customization);
-    // const light = {
-    //     palette: {
-    //         type: 'light'
-    //     }
-    // };
-    // const dark = {
-    //     palette: {
-    //         type: 'dark'
-    //     }
-    // };
 
     return (
         <StyledEngineProvider injectFirst>

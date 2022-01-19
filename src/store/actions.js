@@ -5,3 +5,4 @@ export const MENU_OPEN = '@customization/MENU_OPEN';
 export const SET_FONT_FAMILY = '@customization/SET_FONT_FAMILY';
 export const SET_BORDER_RADIUS = '@customization/SET_BORDER_RADIUS';
 export const SET_THEMING = '@customization/SET_THEMING';
+export const DIR_CHANGE = '@customization/DIR_CHANGE';
