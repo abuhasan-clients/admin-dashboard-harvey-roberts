@@ -11,7 +11,7 @@ export const initialState = {
     fontFamily: config.fontFamily,
     borderRadius: config.borderRadius,
     themeChange: initialTheme === null ? 'light' : initialTheme,
-    dirChange: initialDir === null ? false : initialDir,
+    dirChange: initialDir === null ? false : Boolean(initialDir),
     opened: true
 };
 

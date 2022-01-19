@@ -121,7 +121,9 @@ const Customization = () => {
     }, [dispatch, darkTheme, customization.themeChange]);
 
     // change direction
-    const [checked, setChecked] = useState(customization.dirChange);
+    // eslint-disable-next-line no-new-wrappers
+    const [checked, setChecked] = useState(Boolean(customization.dirChange));
+    // console.log(customization.dirChange);
     const handleChange = (event) => {
         setChecked(event.target.checked);
         localStorage.setItem('dirChange', event.target.checked);
